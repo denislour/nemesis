@@ -7,7 +7,7 @@ const router = new Router();
 app.use(morgan("dev")).use(router.routes()).use(router.allowedMethods());
 
 router.get("/", (ctx: Context, next: Next) => {
-  ctx.body = { hello: "World 12" };
+  ctx.body = { hello: "World" };
 });
 
 const port = Number(process.env.PORT) ?? 8000;

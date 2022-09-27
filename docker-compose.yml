@@ -10,5 +10,16 @@ services:
       - .:/usr/src/app
       - /usr/src/app/node_modules # trick to node_modules not mapping from host to container
     command: yarn start:docker # Override Dockerfile CMD
+    depends_on:
+      - postgres
     environment:
+      - DATABASE_URL=postgres://postgres@postgres/nemesis
       - PORT=8000
+
+  postgres:
+    image: postgres:14-alpine
+    ports:
+      - 5431:5432
+    environment:
+      - POSTGRES_DB=nemesis
+      - POSTGRES_HOST_AUTH_METHOD=trust
