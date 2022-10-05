@@ -1,8 +1,8 @@
 version: "3.8"
-
 services:
   backend:
     build: .
+    container_name: backend
     ports:
       - 8000:8000
       - 9229:9229 # Debugger port
@@ -10,16 +10,35 @@ services:
       - .:/usr/src/app
       - /usr/src/app/node_modules # trick to node_modules not mapping from host to container
     command: yarn start:docker # Override Dockerfile CMD
-    depends_on:
-      - postgres
     environment:
-      - DATABASE_URL=postgres://postgres@postgres/nemesis
       - PORT=8000
+    depends_on:
+      - mariadb
 
-  postgres:
-    image: postgres:14-alpine
-    ports:
-      - 5431:5432
+  mariadb:
+    image: mariadb
+    container_name: mariadb
+    volumes:
+      - db_data:/var/lib/mysql
     environment:
-      - POSTGRES_DB=nemesis
-      - POSTGRES_HOST_AUTH_METHOD=trust
+      MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
+      MYSQL_DATABASE: ${DB_DATABASE}
+      MYSQL_USER: ${DB_USERNAME}
+      MYSQL_PASSWORD: ${DB_PASSWORD}
+    restart: always
+    ports:
+      - "3308:3306"
+
+  adminer:
+    image: adminer:latest
+    container_name: adminer
+    environment:
+      ADMINER_DEFAULT_SERVER: mariadb
+    restart: always
+    depends_on:
+      - mariadb
+    ports:
+      - 7777:8080
+
+volumes:
+  db_data:
