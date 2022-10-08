@@ -3,8 +3,7 @@ import { Options } from "sequelize/types";
 
 import configDB from "./../config/database";
 
-const env: string = process.env.NODE_ENV || "development";
-
+const env: string = "development";
 const config: Options = configDB[env as keyof typeof configDB];
 
 let db: Sequelize = new Sequelize(

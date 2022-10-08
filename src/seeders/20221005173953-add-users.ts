@@ -37,10 +37,6 @@ export = {
         });
         await superadminRole?.createUser(usersData[0], { transaction });
 
-        // await User.create(usersData[1], {
-        //   transaction,
-        // });
-
         let admin = await User.create(
           {
             email: "admin@test.cz",

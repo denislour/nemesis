@@ -9,8 +9,10 @@
     "start": "node dist/index.js",
     "start:docker": "yarn build && node --inspect=0.0.0.0 dist/index.js",
     "migrate": "yarn build && npx sequelize-cli db:migrate",
+    "migrate:undo": "yarn build && npx sequelize-cli db:migrate:undo:all",
     "migrate:fresh": "yarn build && npx sequelize-cli db:migrate:undo:all && npx sequelize-cli db:migrate",
     "seed": "yarn build && npx sequelize-cli db:seed:all",
+    "seed:undo": "yarn build && npx sequelize-cli db:seed:undo:all",
     "seed:fresh": "yarn build && npx sequelize-cli db:seed:undo:all && npx sequelize-cli db:seed:all"
   },
   "dependencies": {
