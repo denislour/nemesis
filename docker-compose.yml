@@ -1,19 +1,19 @@
 version: "3.8"
 services:
-  backend:
-    build: .
-    container_name: backend
-    ports:
-      - 8000:8000
-      - 9229:9229 # Debugger port
-    volumes:
-      - .:/usr/src/app
-      - /usr/src/app/node_modules # trick to node_modules not mapping from host to container
-    command: yarn start:docker # Override Dockerfile CMD
-    environment:
-      - PORT=8000
-    depends_on:
-      - mariadb
+  # backend:
+  #   build: .
+  #   container_name: backend
+  #   ports:
+  #     - 8000:8000
+  #     - 9229:9229 # Debugger port
+  #   volumes:
+  #     - .:/usr/src/app
+  #     - /usr/src/app/node_modules # trick to node_modules not mapping from host to container
+  #   command: yarn start:docker # Override Dockerfile CMD
+  #   environment:
+  #     - PORT=8000
+  #   depends_on:
+  #     - mariadb
 
   mariadb:
     image: mariadb

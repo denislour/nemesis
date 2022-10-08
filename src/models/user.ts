@@ -7,7 +7,7 @@ import {
   ForeignKey,
 } from "sequelize";
 
-import db from ".";
+import db from "../db";
 import { IRole } from "./role";
 
 export interface IUser

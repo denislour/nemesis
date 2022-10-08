@@ -9,7 +9,7 @@ import {
   HasManyCreateAssociationMixin,
 } from "sequelize";
 
-import db from ".";
+import db from "../db";
 import User, { IUser } from "./user";
 
 export interface IRole

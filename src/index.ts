@@ -1,16 +1,13 @@
-import Koa, { Context, Next } from "koa";
-import Router from "koa-router";
+import Koa from "koa";
 import morgan from "koa-morgan";
+import router from "./routes";
 
 const app = new Koa();
-const router = new Router();
+
 app.use(morgan("dev")).use(router.routes()).use(router.allowedMethods());
 
-router.get("/", (ctx: Context, next: Next) => {
-  ctx.body = { hello: "World" };
-});
+const port = 8000;
 
-const port = Number(process.env.PORT) ?? 8000;
 app.listen(port, "0.0.0.0", () => {
   console.log(`Server started at http://localhost:${port}`);
 });

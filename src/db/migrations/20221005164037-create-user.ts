@@ -1,11 +1,12 @@
 import { QueryInterface, DataTypes } from "sequelize";
-import Role, { IRole } from "../models/role";
+import Role from "../../models/role";
+import User, { IUser } from "../../models/user";
 
 module.exports = {
   up: async (queryInterface: QueryInterface): Promise<void> => {
     await queryInterface.sequelize.transaction(async (transaction) => {
-      return await queryInterface.createTable<IRole>(
-        Role.tableName,
+      return await queryInterface.createTable<IUser>(
+        User.tableName,
         {
           id: {
             allowNull: false,
@@ -18,9 +19,25 @@ module.exports = {
             unique: true,
             allowNull: false,
           },
-          type: {
+          email: {
             type: DataTypes.STRING,
             allowNull: true,
+          },
+          password: {
+            type: DataTypes.STRING,
+            allowNull: false,
+          },
+          RoleId: {
+            type: DataTypes.INTEGER,
+            references: {
+              model: Role.tableName,
+              key: "id",
+            },
+          },
+          active: {
+            type: DataTypes.BOOLEAN,
+            allowNull: false,
+            defaultValue: true,
           },
         },
         {
@@ -34,7 +51,7 @@ module.exports = {
 
   down: async (queryInterface: QueryInterface): Promise<void> => {
     await queryInterface.sequelize.transaction(async (transaction) => {
-      return await queryInterface.dropTable(Role.tableName, {
+      return await queryInterface.dropTable(User.tableName, {
         transaction,
       });
     });

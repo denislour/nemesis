@@ -1,6 +1,6 @@
 import { QueryInterface, CreationAttributes } from "sequelize";
-import Role from "../models/role";
-import User, { IUser } from "../models/user";
+import Role from "../../models/role";
+import User, { IUser } from "../../models/user";
 
 export = {
   up: async (queryInterface: QueryInterface): Promise<void> => {
