@@ -1,5 +1,5 @@
 import { QueryInterface, CreationAttributes } from "sequelize";
-import Role from "../../models/role";
+import Role from "../../models/post";
 import User, { IUser } from "../../models/user";
 
 export = {

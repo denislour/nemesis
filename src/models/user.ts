@@ -4,20 +4,22 @@ import {
   InferAttributes,
   InferCreationAttributes,
   CreationOptional,
-  ForeignKey,
+  HasManyGetAssociationsMixin,
 } from "sequelize";
 
 import db from "../db";
-import { IRole } from "./role";
 
 export interface IUser
   extends Model<InferAttributes<IUser>, InferCreationAttributes<IUser>> {
   id: CreationOptional<number>;
   name: string;
   email: string;
-  password: string;
-  RoleId: ForeignKey<IRole["id"]>;
-  active: boolean;
+  emailVerified?: CreationOptional<Date>;
+  image?: CreationOptional<string>;
+
+  // relations
+  // getPosts: HasManyGetAssociationsMixin<IPost>;
+
   createdAt?: CreationOptional<Date>;
   updatedAt?: CreationOptional<Date>;
 }
@@ -40,23 +42,13 @@ export const User = db.define<IUser>(
         isEmail: true,
       },
     },
-    password: {
-      type: DataTypes.STRING,
-    },
-    RoleId: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
-    },
-    active: {
-      type: DataTypes.BOOLEAN,
-      defaultValue: true,
-      allowNull: false,
-    },
   },
   {
-    timestamps: false, // createdAt, updatedAt
+    // don't forget to enable timestamps!
+    timestamps: true,
     paranoid: false, // deletedAt
-    tableName: "User",
+    freezeTableName: true,
   }
 );
+
 export default User;

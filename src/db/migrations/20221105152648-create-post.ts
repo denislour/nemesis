@@ -1,11 +1,12 @@
 import { QueryInterface, DataTypes } from "sequelize";
-import Role, { IRole } from "../../models/role";
+import Post, { IPost } from "../../models/post";
+import User from "../../models/user";
 
 module.exports = {
   up: async (queryInterface: QueryInterface): Promise<void> => {
     await queryInterface.sequelize.transaction(async (transaction) => {
-      return await queryInterface.createTable<IRole>(
-        Role.tableName,
+      return await queryInterface.createTable<IPost>(
+        Post.tableName,
         {
           id: {
             allowNull: false,
@@ -13,14 +14,29 @@ module.exports = {
             primaryKey: true,
             type: DataTypes.INTEGER,
           },
-          name: {
+          userId: {
+            type: DataTypes.INTEGER,
+            references: {
+              model: "User",
+              key: "id",
+            },
+          },
+          title: {
             type: DataTypes.STRING,
             unique: true,
             allowNull: false,
           },
-          type: {
-            type: DataTypes.STRING,
+          body: {
+            type: DataTypes.TEXT,
             allowNull: true,
+          },
+          createdAt: {
+            type: DataTypes.DATE,
+            allowNull: false,
+          },
+          updatedAt: {
+            type: DataTypes.DATE,
+            allowNull: false,
           },
         },
         {
@@ -34,7 +50,7 @@ module.exports = {
 
   down: async (queryInterface: QueryInterface): Promise<void> => {
     await queryInterface.sequelize.transaction(async (transaction) => {
-      return await queryInterface.dropTable(Role.tableName, {
+      return await queryInterface.dropTable(Post.tableName, {
         transaction,
       });
     });

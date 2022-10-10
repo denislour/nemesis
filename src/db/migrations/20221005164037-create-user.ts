@@ -1,5 +1,5 @@
 import { QueryInterface, DataTypes } from "sequelize";
-import Role from "../../models/role";
+import Role from "../../models/post";
 import User, { IUser } from "../../models/user";
 
 module.exports = {
@@ -23,21 +23,13 @@ module.exports = {
             type: DataTypes.STRING,
             allowNull: true,
           },
-          password: {
-            type: DataTypes.STRING,
+          createdAt: {
+            type: DataTypes.DATE,
             allowNull: false,
           },
-          RoleId: {
-            type: DataTypes.INTEGER,
-            references: {
-              model: Role.tableName,
-              key: "id",
-            },
-          },
-          active: {
-            type: DataTypes.BOOLEAN,
+          updatedAt: {
+            type: DataTypes.DATE,
             allowNull: false,
-            defaultValue: true,
           },
         },
         {
