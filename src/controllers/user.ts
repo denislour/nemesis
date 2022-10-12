@@ -1,19 +1,22 @@
 import { Context } from "koa";
-import { Attributes } from "sequelize";
-import db from "../db";
-import Post, { IPost } from "../models/post";
+import bcrypt from "bcryptjs";
 import User, { IUser } from "../models/user";
-import PostSerializer from "../serializers/postSerializer";
+import UserSerializer from "../serializers/userSerializer";
+import { CreationAttributes, Model } from "sequelize";
 
-export const createUser = async (ctx: Context) => {
-  let user: Attributes<IUser> = await User.create({
-    name: "Le Van A1",
-    email: "levana1@gmail.com",
+export const register = async (ctx: Context) => {
+  const user: CreationAttributes<IUser> = ctx.request
+    .body as CreationAttributes<IUser>;
+
+  const existedUser = await User.findOne({ where: { email: user.email } });
+  if (existedUser) {
+    return (ctx.body = { message: "User already existed" });
+  }
+
+  const hashedPassword = await bcrypt.hash(user.password, 10);
+  const newUser: Model<CreationAttributes<IUser>> = await User.create({
+    email: user.email,
+    password: hashedPassword,
   });
-  let post: Attributes<IPost> = await Post.create({
-    userId: user.id,
-    title: "Bai Viet So 1",
-    body: "Body bai viet so mot",
-  });
-  ctx.body = await PostSerializer.serialize(post);
+  return (ctx.body = await UserSerializer.serialize(newUser));
 };

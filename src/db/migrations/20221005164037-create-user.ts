@@ -14,12 +14,12 @@ module.exports = {
             primaryKey: true,
             type: DataTypes.INTEGER,
           },
-          name: {
-            type: DataTypes.STRING,
-            unique: true,
-            allowNull: false,
-          },
           email: {
+            type: DataTypes.STRING,
+            allowNull: true,
+            unique: true,
+          },
+          password: {
             type: DataTypes.STRING,
             allowNull: true,
           },

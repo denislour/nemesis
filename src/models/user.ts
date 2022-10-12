@@ -6,14 +6,13 @@ import {
   CreationOptional,
   HasManyGetAssociationsMixin,
 } from "sequelize";
-
 import db from "../db";
 
 export interface IUser
   extends Model<InferAttributes<IUser>, InferCreationAttributes<IUser>> {
   id: CreationOptional<number>;
-  name: string;
   email: string;
+  password: string;
   emailVerified?: CreationOptional<Date>;
   image?: CreationOptional<string>;
 
@@ -32,15 +31,15 @@ export const User = db.define<IUser>(
       primaryKey: true,
       autoIncrement: true,
     },
-    name: {
-      type: DataTypes.STRING,
-      allowNull: false,
-    },
     email: {
       type: DataTypes.STRING,
       validate: {
         isEmail: true,
       },
+    },
+    password: {
+      allowNull: false,
+      type: DataTypes.STRING,
     },
   },
   {

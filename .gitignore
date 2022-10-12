@@ -1,5 +1,6 @@
 .env
 .vscode
 .idea
+yarn-error.log
 dist
 node_modules
